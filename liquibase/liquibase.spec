@@ -11,6 +11,7 @@ Group: Applications/Databases
 #   git archive --prefix=liquibase-2.0.3/ -o liquibase-2.0.3.tar liquibase-parent-2.0.3
 #   gzip liquibase-2.0.3.tar
 Source0: %{name}-%{version}.tar.gz
+Source1: build.xml
 
 #Patch0: liquibase-bin.patch
 
@@ -24,22 +25,28 @@ BuildArch: noarch
 Url: http://liquibase.org/
 
 %description
-LiquiBase is an open source (Apache 2.0 License), database-independent library for tracking,
-managing and applying database changes. It is built on a simple premise: All
-database changes are stored in a human readable yet trackable form and checked
-into source control.
+LiquiBase is an open source (Apache 2.0 License), database-independent library
+for tracking, managing and applying database changes. It is built on a simple
+premise: All database changes are stored in a human readable yet trackable form
+and checked into source control.
 
 %prep
 %setup -q
+cp -p %SOURCE1 .
+
+# Remove the Spring wrapper, this is not available as a build dependency:
+rm src/main/java/liquibase/integration/spring/SpringLiquibase.java
 
 %build
+ant -Dlibdir=%{_datarootdir}/java clean package
 
 %install
 rm -rf %{buildroot}
 #%{__mkdir} -p %{buildroot}%{_libdir}/%{name}/lib/
-#%{__mkdir} -p %{buildroot}%{_bindir}
-#%{__install} -m 0644 -D -p %{name}-%{version}.jar %{buildroot}%{_libdir}/%{name}
-#%{__install} -m 0755 -D -p %{name} %{buildroot}%{_bindir}
+%{__install} -d -m 755 %{buildroot}%{_datarootdir}/java/
+%{__install} -m 0644 -D -p dist/lib/liquibase.jar %{buildroot}%{_datarootdir}/java/
+%{__mkdir} -p %{buildroot}%{_bindir}
+%{__install} -m 0755 -D -p src/main/resources/dist/liquibase %{buildroot}%{_bindir}
 
 # Profile.d file
 #%{__mkdir} -p %{buildroot}%{_sysconfdir}/profile.d/
@@ -55,15 +62,13 @@ rm -rf %{buildroot}
 #%attr(0755,root,root) %{_sysconfdir}/profile.d/%{name}.sh
 #%doc docs/* samples changelog.txt LICENSE.txt
 #%{_libdir}/%{name}
-#%{_bindir}/%{name}
+%{_bindir}/%{name}
+%{_datarootdir}/java/liquibase.jar
 
 
 
 %changelog
 * Thu Mar 29 2012 Devan Goodwin <dgoodwin@rm-rf.ca> 2.0.3-2
 - Initial packaging attempt.
-
-* Thu Mar 29 2012 Devan Goodwin <dgoodwin@redhat.com> - 2.0.3
-- Initial packaging.
 
 
