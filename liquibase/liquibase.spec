@@ -8,8 +8,7 @@ Group: Applications/Databases
 # Liquibase does not distribute source releases. To generate:
 #   git clone https://github.com/liquibase/liquibase.git
 #   cd liquibase-core/
-#   git archive --prefix=liquibase-2.0.3/ -o liquibase-2.0.3.tar liquibase-parent-2.0.3
-#   gzip liquibase-2.0.3.tar
+#   git archive --prefix=liquibase-2.0.3/ liquibase-parent-2.0.3 liquibase-core/ samples/ changelog.txt LICENSE.txt | gzip >liquibase-2.0.3.tar.gz
 Source0: %{name}-%{version}.tar.gz
 Source1: build.xml
 # Our custom launcher script:
@@ -34,44 +33,36 @@ and checked into source control.
 
 %prep
 %setup -q
-cp -p %SOURCE1 .
+cp -p %SOURCE1 liquibase-core/
 cp -p %SOURCE2 .
 
 # Remove the Spring wrapper, this is not available as a build dependency:
-rm src/main/java/liquibase/integration/spring/SpringLiquibase.java
+rm liquibase-core/src/main/java/liquibase/integration/spring/SpringLiquibase.java
 
 %build
+cd liquibase-core
 ant -Dlibdir=%{_datarootdir}/java clean package
 
 %install
 rm -rf %{buildroot}
 #%{__mkdir} -p %{buildroot}%{_libdir}/%{name}/lib/
 %{__install} -d -m 755 %{buildroot}%{_datarootdir}/java/
-%{__install} -m 0644 -D -p dist/lib/liquibase.jar %{buildroot}%{_datarootdir}/java/
+%{__install} -m 0644 -D -p liquibase-core/dist/lib/liquibase.jar %{buildroot}%{_datarootdir}/java/
 %{__mkdir} -p %{buildroot}%{_bindir}
 %{__install} -m 0755 -D -p liquibase %{buildroot}%{_bindir}
-
-# Profile.d file
-#%{__mkdir} -p %{buildroot}%{_sysconfdir}/profile.d/
-#%{__cat} <<EOF >%{buildroot}%{_sysconfdir}/profile.d/liquibase.sh
-#export LIQUIBASE_HOME=%{_libdir}/%{name}/
-#EOF
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-#%attr(0755,root,root) %{_sysconfdir}/profile.d/%{name}.sh
-#%doc docs/* samples changelog.txt LICENSE.txt
-#%{_libdir}/%{name}
+%doc samples changelog.txt LICENSE.txt
 %{_bindir}/%{name}
 %{_datarootdir}/java/liquibase.jar
 
 
-
 %changelog
-* Thu Mar 29 2012 Devan Goodwin <dgoodwin@rm-rf.ca> 2.0.3-2
+* Thu Mar 29 2012 Devan Goodwin <dgoodwin@redhat.com> 2.0.3-2
 - Initial packaging attempt.
 
 
