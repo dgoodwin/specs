@@ -1,7 +1,7 @@
 Name: liquibase
 Summary: Liquibase Database Refactoring Tool
 Version: 2.0.3
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: ASL 2.0
 Group: Applications/Databases
 
@@ -62,6 +62,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Fri Mar 30 2012 Devan Goodwin <dgoodwin@rm-rf.ca> 2.0.3-3
+- Include documentation, better tar.gz generation. (dgoodwin@redhat.com)
+- Add custom launcher script. (dgoodwin@redhat.com)
+- Add build.xml to compile. (dgoodwin@redhat.com)
+
 * Thu Mar 29 2012 Devan Goodwin <dgoodwin@redhat.com> 2.0.3-2
 - Initial packaging attempt.
 
