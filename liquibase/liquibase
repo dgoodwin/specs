@@ -1,0 +1,16 @@
+#! /bin/sh
+
+export LIQUIBASE_HOME="/usr/share/java/"
+
+
+# build classpath from all jars in /usr/share/java:
+CP=.
+for i in "$LIQUIBASE_HOME"/liquibase*.jar; do
+CP="$CP":"$i"
+done
+
+# add any JVM options here
+JAVA_OPTS=
+
+java -cp "$CP" $JAVA_OPTS liquibase.integration.commandline.Main ${1+"$@"}
+

@@ -12,6 +12,8 @@ Group: Applications/Databases
 #   gzip liquibase-2.0.3.tar
 Source0: %{name}-%{version}.tar.gz
 Source1: build.xml
+# Our custom launcher script:
+Source2: liquibase
 
 #Patch0: liquibase-bin.patch
 
@@ -33,6 +35,7 @@ and checked into source control.
 %prep
 %setup -q
 cp -p %SOURCE1 .
+cp -p %SOURCE2 .
 
 # Remove the Spring wrapper, this is not available as a build dependency:
 rm src/main/java/liquibase/integration/spring/SpringLiquibase.java
@@ -46,7 +49,7 @@ rm -rf %{buildroot}
 %{__install} -d -m 755 %{buildroot}%{_datarootdir}/java/
 %{__install} -m 0644 -D -p dist/lib/liquibase.jar %{buildroot}%{_datarootdir}/java/
 %{__mkdir} -p %{buildroot}%{_bindir}
-%{__install} -m 0755 -D -p src/main/resources/dist/liquibase %{buildroot}%{_bindir}
+%{__install} -m 0755 -D -p liquibase %{buildroot}%{_bindir}
 
 # Profile.d file
 #%{__mkdir} -p %{buildroot}%{_sysconfdir}/profile.d/
