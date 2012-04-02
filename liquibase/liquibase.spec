@@ -17,6 +17,7 @@ Source2: liquibase
 #Patch0: liquibase-bin.patch
 
 BuildRequires: java >= 0:1.6.0
+BuildRequires: servlet25
 BuildRequires: ant >= 0:1.7.0
 
 Requires: java >= 0:1.6.0
