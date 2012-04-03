@@ -14,8 +14,6 @@ Source1: build.xml
 # Our custom launcher script:
 Source2: liquibase
 
-#Patch0: liquibase-bin.patch
-
 BuildRequires: java >= 0:1.6.0
 BuildRequires: servlet25
 BuildRequires: ant >= 0:1.7.0
@@ -46,10 +44,9 @@ ant -Dlibdir=%{_datarootdir}/java clean package
 
 %install
 rm -rf %{buildroot}
-#%{__mkdir} -p %{buildroot}%{_libdir}/%{name}/lib/
+%{__mkdir} -p %{buildroot}%{_bindir}
 %{__install} -d -m 755 %{buildroot}%{_datarootdir}/java/
 %{__install} -m 0644 -D -p liquibase-core/dist/lib/liquibase.jar %{buildroot}%{_datarootdir}/java/
-%{__mkdir} -p %{buildroot}%{_bindir}
 %{__install} -m 0755 -D -p liquibase %{buildroot}%{_bindir}
 
 %clean

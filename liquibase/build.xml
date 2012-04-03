@@ -10,8 +10,6 @@
     <property name="dist"  location="dist"/>
     <property name="lib.dir" location="${libdir}" />
 
-    <!--<property name="akuma.version" value="2.0.3"/>-->
-
     <target name="init">
         <!-- Create the time stamp -->
         <tstamp/>
