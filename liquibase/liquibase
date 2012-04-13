@@ -1,13 +1,6 @@
 #! /bin/sh
 
-export LIQUIBASE_HOME="/usr/share/java/"
-
-
-# build classpath from all jars in /usr/share/java:
-CP=.
-for i in "$LIQUIBASE_HOME"/liquibase*.jar; do
-CP="$CP":"$i"
-done
+CP=$(build-classpath liquibase)
 
 # add any JVM options here
 JAVA_OPTS=

@@ -1,5 +1,5 @@
 Name: liquibase
-Summary: Liquibase Database Refactoring Tool
+Summary: Database Refactoring Tool
 Version: 2.0.3
 Release: 5%{?dist}
 License: ASL 2.0
@@ -14,11 +14,13 @@ Source1: build.xml
 # Our custom launcher script:
 Source2: liquibase
 
-BuildRequires: java >= 0:1.6.0
+BuildRequires: java-devel >= 0:1.6.0
+BuildRequires: jpackage-utils
 BuildRequires: servlet25
 BuildRequires: ant >= 0:1.7.0
 
 Requires: java >= 0:1.6.0
+Requires: jpackage-utils
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildArch: noarch
@@ -27,8 +29,8 @@ Url: http://liquibase.org/
 %description
 LiquiBase is an open source (Apache 2.0 License), database-independent library
 for tracking, managing and applying database changes. It is built on a simple
-premise: All database changes are stored in a human readable yet trackable form
-and checked into source control.
+premise: All database changes are stored in a human readable but tracked in
+source control.
 
 %prep
 %setup -q
@@ -45,8 +47,8 @@ ant -Dlibdir=%{_datarootdir}/java clean package
 %install
 rm -rf %{buildroot}
 %{__mkdir} -p %{buildroot}%{_bindir}
-%{__install} -d -m 755 %{buildroot}%{_datarootdir}/java/
-%{__install} -m 0644 -D -p liquibase-core/dist/lib/liquibase.jar %{buildroot}%{_datarootdir}/java/
+%{__install} -d -m 755 %{buildroot}%{_javadir}
+%{__install} -m 0644 -D -p liquibase-core/dist/lib/liquibase.jar %{buildroot}%{_javadir}
 %{__install} -m 0755 -D -p liquibase %{buildroot}%{_bindir}
 
 %clean
@@ -56,7 +58,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc samples changelog.txt LICENSE.txt
 %{_bindir}/%{name}
-%{_datarootdir}/java/liquibase.jar
+%{_javadir}/liquibase.jar
 
 
 %changelog
