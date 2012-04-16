@@ -1,7 +1,7 @@
 Name: liquibase
 Summary: Database Refactoring Tool
 Version: 2.0.3
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: ASL 2.0
 Group: Applications/Databases
 
@@ -67,6 +67,11 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Apr 16 2012 Devan Goodwin <dgoodwin@rm-rf.ca> 2.0.3-6
+- Generate and package javadocs.
+- Cleanup rpmlint warnings.
+- Switched to using javadir macro.
+- Switched to using build-classpath in launcher.
 * Tue Apr 03 2012 Devan Goodwin <dgoodwin@rm-rf.ca> 2.0.3-5
 - Spec cleanup. (dgoodwin@redhat.com)
 
