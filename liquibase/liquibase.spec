@@ -43,13 +43,17 @@ rm liquibase-core/src/main/java/liquibase/integration/spring/SpringLiquibase.jav
 %build
 cd liquibase-core
 ant -Dlibdir=%{_datarootdir}/java clean package
+javadoc -sourcepath src/main/java/ -d javadoc/ liquibase
 
 %install
 rm -rf %{buildroot}
 %{__mkdir} -p %{buildroot}%{_bindir}
 %{__install} -d -m 755 %{buildroot}%{_javadir}
+%{__install} -d -m 755 %{buildroot}%{_javadocdir}/%{name}
 %{__install} -m 0644 -D -p liquibase-core/dist/lib/liquibase.jar %{buildroot}%{_javadir}
 %{__install} -m 0755 -D -p liquibase %{buildroot}%{_bindir}
+%{__install} -m 0755 -D -p liquibase %{buildroot}%{_bindir}
+cp -R liquibase-core/javadoc %{buildroot}%{_javadocdir}/%{name}
 
 %clean
 rm -rf %{buildroot}
@@ -57,6 +61,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc samples changelog.txt LICENSE.txt
+%{_javadocdir}/liquibase/*
 %{_bindir}/%{name}
 %{_javadir}/liquibase.jar
 
