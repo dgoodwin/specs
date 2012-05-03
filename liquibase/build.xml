@@ -9,6 +9,7 @@
     <property name="build" location="build"/>
     <property name="dist"  location="dist"/>
     <property name="lib.dir" location="${libdir}" />
+    <property name="resources.dir" location="${src}/resources" />
 
     <target name="init">
         <!-- Create the time stamp -->
@@ -27,6 +28,9 @@
                 </fileset>
             </classpath>
         </javac>
+        <copy todir="${build}">
+          <fileset dir="${resources.dir}" />
+        </copy>
     </target>
 
     <target name="package" depends="compile"
