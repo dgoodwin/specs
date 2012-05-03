@@ -1,7 +1,7 @@
 Name: liquibase
 Summary: Database Refactoring Tool
 Version: 2.0.3
-Release: 6%{?dist}
+Release: 7%{?dist}
 License: ASL 2.0
 Group: Applications/Databases
 
@@ -67,6 +67,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu May 03 2012 Devan Goodwin <dgoodwin@rm-rf.ca> 2.0.3-7
+- 818510: Fix offline failures looking for dbchangelog XSD.
+  (dgoodwin@redhat.com)
+
 * Mon Apr 16 2012 Devan Goodwin <dgoodwin@rm-rf.ca> 2.0.3-6
 - Generate and package javadocs.
 - Cleanup rpmlint warnings.
